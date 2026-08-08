@@ -1,0 +1,29 @@
+---
+- name: Configure Northwind Delivery Service Environment
+  hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+
+    - name: Ensure application directory exists
+      ansible.builtin.file:
+        path: /tmp/northwind-delivery-service
+        state: directory
+
+    - name: Ensure deployment directory exists
+      ansible.builtin.file:
+        path: /tmp/northwind-deployment
+        state: directory
+
+    - name: Create configuration file
+      ansible.builtin.copy:
+        dest: /tmp/northwind-delivery-service/config.txt
+        content: |
+          service=Northwind Delivery Service
+          environment=development
+
+    - name: Display configuration completion message
+      ansible.builtin.debug:
+        msg: "Northwind Delivery Service environment configured successfully."
+        
