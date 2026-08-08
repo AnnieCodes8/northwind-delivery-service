@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: northwind-delivery-service
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: northwind-delivery-service
+
+  template:
+    metadata:
+      labels:
+        app: northwind-delivery-service
+
+    spec:
+      containers:
+      - name: northwind-delivery-service
+        image: annie0807/northwind-delivery-service:latest
+
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 8000
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
